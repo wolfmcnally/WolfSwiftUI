@@ -3,16 +3,16 @@ import Combine
 
 // MARK: - A View that offers to fill all available space at a high priority.
 
-struct Greedy<Content> : View where Content : View {
-    let layoutPriority: Double
-    let content: Content
+public struct Greedy<Content> : View where Content : View {
+    public let layoutPriority: Double
+    public let content: Content
 
-    init(_ layoutPriority: Double = 1, @ViewBuilder content: () -> Content) {
+    public init(_ layoutPriority: Double = 1, @ViewBuilder content: () -> Content) {
         self.layoutPriority = layoutPriority
         self.content = content()
     }
 
-    var body: some View {
+    public var body: some View {
         GeometryReader { _ in
             self.content
         }
@@ -22,7 +22,7 @@ struct Greedy<Content> : View where Content : View {
 
 // MARK: - Flip environment right-to-left
 
-extension View {
+public extension View {
     func rightToLeft() -> some View {
         return self
             .environment(\.layoutDirection, .rightToLeft)
@@ -31,7 +31,7 @@ extension View {
 
 // MARK: - Erase to AnyView
 
-extension View {
+public extension View {
     func eraseToAnyView() -> AnyView {
         AnyView(self)
     }
@@ -39,7 +39,7 @@ extension View {
 
 // MARK: - Project Optional Binding to Non-Optional Binding
 
-func ??<T>(binding: Binding<T?>, fallback: T) -> Binding<T> {
+public func ??<T>(binding: Binding<T?>, fallback: T) -> Binding<T> {
     return Binding(get: {
         binding.wrappedValue ?? fallback
     }, set: {
@@ -49,7 +49,7 @@ func ??<T>(binding: Binding<T?>, fallback: T) -> Binding<T> {
 
 // MARK: - Fix Vertical Height
 
-extension View {
+public extension View {
     func fixedVertical() -> some View {
         fixedSize(horizontal: false, vertical: true)
     }
@@ -57,25 +57,25 @@ extension View {
 
 // MARK: - Dark Mode
 
-struct DarkMode: ViewModifier {
-    func body(content: Content) -> some View {
+public struct DarkMode: ViewModifier {
+    public func body(content: Content) -> some View {
         content.environment(\.colorScheme, .dark)
     }
 }
 
-extension View {
+public extension View {
     func darkMode() -> some View {
         modifier(DarkMode())
     }
 }
 
-struct LightMode: ViewModifier {
-    func body(content: Content) -> some View {
+public struct LightMode: ViewModifier {
+    public func body(content: Content) -> some View {
         content.environment(\.colorScheme, .light)
     }
 }
 
-extension View {
+public extension View {
     func lightMode() -> some View {
         modifier(LightMode())
     }
@@ -83,8 +83,8 @@ extension View {
 
 // MARK: - Tap Dismisses Keyboard
 
-struct TapDismissesKeyboard: ViewModifier {
-    func body(content: Content) -> some View {
+public struct TapDismissesKeyboard: ViewModifier {
+    public func body(content: Content) -> some View {
         content
             .onTapGesture {
                 let keyWindow = UIApplication.shared.connectedScenes
@@ -98,7 +98,7 @@ struct TapDismissesKeyboard: ViewModifier {
     }
 }
 
-extension View {
+public extension View {
     func tapDismissesKeyboard() -> some View {
         modifier(TapDismissesKeyboard())
     }
@@ -110,11 +110,11 @@ extension View {
 
 // MARK: - Adapts to Screen Keyboard
 
-struct AdaptsToScreenKeyboard: ViewModifier {
+public struct AdaptsToScreenKeyboard: ViewModifier {
     @State var currentHeight: CGFloat = 0
     @State var cancellable: AnyCancellable?
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .padding(.bottom, currentHeight).animation(.easeOut(duration: 0.25))
             .edgesIgnoringSafeArea(currentHeight == 0 ? Edge.Set() : .bottom)
@@ -150,7 +150,7 @@ struct AdaptsToScreenKeyboard: ViewModifier {
     }
 }
 
-extension View {
+public extension View {
     func adaptsToScreenKeyboard() -> some View {
         modifier(AdaptsToScreenKeyboard())
     }
@@ -158,17 +158,17 @@ extension View {
 
 // MARK: - DisabledField
 
-struct DisabledField: ViewModifier {
+public struct DisabledField: ViewModifier {
     let isDisabled: Bool
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
         .disabled(isDisabled)
             .foregroundColor(isDisabled ? Color.secondary : Color.primary)
     }
 }
 
-extension View {
+public extension View {
     func disabledField(_ isDisabled: Bool) -> some View {
         modifier(DisabledField(isDisabled: isDisabled))
     }
