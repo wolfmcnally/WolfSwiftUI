@@ -32,8 +32,12 @@ public struct Placeholder: View {
     }
 }
 
+#if DEBUG
+
 struct Placeholder_Previews: PreviewProvider {
     static var previews: some View {
         Placeholder("Placeholder").frame(height: 150)
     }
 }
+
+#endif

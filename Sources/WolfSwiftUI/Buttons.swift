@@ -69,6 +69,20 @@ public struct RefreshButton: View {
     }
 }
 
+public struct CancelButton: View {
+    let action: () -> Void
+
+    public init(action: @escaping () -> Void) {
+        self.action = action
+    }
+
+    public var body: some View {
+        Button(action: action) {
+            Text("Cancel")
+        }
+    }
+}
+
 public struct DoneButton: View {
     let action: () -> Void
 
@@ -79,6 +93,21 @@ public struct DoneButton: View {
     public var body: some View {
         Button(action: action) {
             Text("Done")
+                .bold()
+        }
+    }
+}
+
+public struct SaveButton: View {
+    let action: () -> Void
+
+    public init(action: @escaping () -> Void) {
+        self.action = action
+    }
+
+    public var body: some View {
+        Button(action: action) {
+            Text("Save")
                 .bold()
         }
     }
@@ -107,6 +136,7 @@ public struct BackButton: View {
 }
 
 #if DEBUG
+
 struct Buttons_Previews: PreviewProvider {
     struct Preview: View {
         @State var isDetailVisible = false
@@ -141,4 +171,5 @@ struct Buttons_Previews: PreviewProvider {
         //.rightToLeft()
     }
 }
+
 #endif
