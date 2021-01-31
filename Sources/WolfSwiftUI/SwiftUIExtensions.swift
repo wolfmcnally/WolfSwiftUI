@@ -24,8 +24,7 @@ public struct Greedy<Content> : View where Content : View {
 
 public extension View {
     func rightToLeft() -> some View {
-        return self
-            .environment(\.layoutDirection, .rightToLeft)
+        environment(\.layoutDirection, .rightToLeft)
     }
 }
 
@@ -57,27 +56,23 @@ public extension View {
 
 // MARK: - Dark Mode
 
-public struct DarkMode: ViewModifier {
-    public func body(content: Content) -> some View {
-        content.environment(\.colorScheme, .dark)
-    }
-}
-
 public extension View {
     func darkMode() -> some View {
-        modifier(DarkMode())
-    }
-}
-
-public struct LightMode: ViewModifier {
-    public func body(content: Content) -> some View {
-        content.environment(\.colorScheme, .light)
+        preferredColorScheme(.dark)
     }
 }
 
 public extension View {
     func lightMode() -> some View {
-        modifier(LightMode())
+        preferredColorScheme(.light)
+    }
+}
+
+// MARK: - Dynamic Type
+
+public extension View {
+    func typeSize(_ category: ContentSizeCategory) -> some View {
+        environment(\.sizeCategory, category)
     }
 }
 
@@ -171,5 +166,28 @@ public struct DisabledField: ViewModifier {
 public extension View {
     func disabledField(_ isDisabled: Bool) -> some View {
         modifier(DisabledField(isDisabled: isDisabled))
+    }
+}
+
+// MARK: - Debug Highlights
+
+public extension View {
+    func debugRed() -> some View { debugColor(.red) }
+    func debugGreen() -> some View { debugColor(.green) }
+    func debugBlue() -> some View { debugColor(.blue) }
+    func debugOrange() -> some View { debugColor(.orange) }
+    func debugPink() -> some View { debugColor(.pink) }
+    func debugPurple() -> some View { debugColor(.purple) }
+    func debugYellow() -> some View { debugColor(.yellow) }
+
+    func debugColor(_ color: Color) -> some View {
+        self
+            .background(
+                ZStack {
+                    color
+                        .opacity(0.4)
+                    border(color)
+                }
+            )
     }
 }
