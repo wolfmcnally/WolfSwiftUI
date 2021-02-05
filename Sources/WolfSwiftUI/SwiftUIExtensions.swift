@@ -182,11 +182,10 @@ public extension View {
 
     func debugColor(_ color: Color) -> some View {
         self
-            .background(
+            .overlay(
                 ZStack {
-                    color
-                        .opacity(0.4)
-                    border(color)
+                    color.opacity(0.4)
+                    border(color.opacity(0.8))
                 }
             )
     }
