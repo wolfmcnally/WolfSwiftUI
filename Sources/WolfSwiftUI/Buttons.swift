@@ -75,6 +75,12 @@ public struct CancelButton: View {
     public init(action: @escaping () -> Void) {
         self.action = action
     }
+    
+    public init(_ isPresented: Binding<Bool>) {
+        self.init {
+            isPresented.wrappedValue = false
+        }
+    }
 
     public var body: some View {
         Button(action: action) {
@@ -88,6 +94,12 @@ public struct DoneButton: View {
 
     public init(action: @escaping () -> Void) {
         self.action = action
+    }
+    
+    public init(_ isPresented: Binding<Bool>) {
+        self.init {
+            isPresented.wrappedValue = false
+        }
     }
 
     public var body: some View {
