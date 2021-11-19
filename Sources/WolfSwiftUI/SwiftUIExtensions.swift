@@ -105,51 +105,51 @@ public extension View {
 
 // MARK: - Adapts to Screen Keyboard
 
-public struct AdaptsToScreenKeyboard: ViewModifier {
-    @State var currentHeight: CGFloat = 0
-    @State var cancellable: AnyCancellable?
-
-    public func body(content: Content) -> some View {
-        content
-            .padding(.bottom, currentHeight).animation(.easeOut(duration: 0.25))
-            .edgesIgnoringSafeArea(currentHeight == 0 ? Edge.Set() : .bottom)
-            .onAppear(perform: startWatchingKeyboard)
-            .onDisappear(perform: stopWatchingKeyboard)
-    }
-
-    private let keyboardHeightOnOpening = NotificationCenter.default
-        .publisher(for: UIResponder.keyboardWillShowNotification)
-        .map { $0.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect }
-        .map { $0.height }
-
-
-    private let keyboardHeightOnHiding = NotificationCenter.default
-        .publisher(for: UIResponder.keyboardWillHideNotification)
-        .map { _ in CGFloat(0) }
-
-    private func startWatchingKeyboard() {
-        //print("🔥 startWatchingKeyboard")
-        cancellable = Publishers.Merge(keyboardHeightOnOpening, keyboardHeightOnHiding)
-            .subscribe(on: DispatchQueue.main)
-            .receive(on: DispatchQueue.main)
-            .sink { height in
-                if self.currentHeight == 0 || height == 0 {
-                    self.currentHeight = height
-                }
-        }
-    }
-
-    private func stopWatchingKeyboard() {
-        //print("🔥 stopWatchingKeyboard")
-        cancellable?.cancel()
-    }
-}
-
-public extension View {
-    func adaptsToScreenKeyboard() -> some View {
-        modifier(AdaptsToScreenKeyboard())
-    }
-}
+//public struct AdaptsToScreenKeyboard: ViewModifier {
+//    @State var currentHeight: CGFloat = 0
+//    @State var cancellable: AnyCancellable?
+//
+//    public func body(content: Content) -> some View {
+//        content
+//            .padding(.bottom, currentHeight).animation(.easeOut(duration: 0.25))
+//            .edgesIgnoringSafeArea(currentHeight == 0 ? Edge.Set() : .bottom)
+//            .onAppear(perform: startWatchingKeyboard)
+//            .onDisappear(perform: stopWatchingKeyboard)
+//    }
+//
+//    private let keyboardHeightOnOpening = NotificationCenter.default
+//        .publisher(for: UIResponder.keyboardWillShowNotification)
+//        .map { $0.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect }
+//        .map { $0.height }
+//
+//
+//    private let keyboardHeightOnHiding = NotificationCenter.default
+//        .publisher(for: UIResponder.keyboardWillHideNotification)
+//        .map { _ in CGFloat(0) }
+//
+//    private func startWatchingKeyboard() {
+//        //print("🔥 startWatchingKeyboard")
+//        cancellable = Publishers.Merge(keyboardHeightOnOpening, keyboardHeightOnHiding)
+//            .subscribe(on: DispatchQueue.main)
+//            .receive(on: DispatchQueue.main)
+//            .sink { height in
+//                if self.currentHeight == 0 || height == 0 {
+//                    self.currentHeight = height
+//                }
+//        }
+//    }
+//
+//    private func stopWatchingKeyboard() {
+//        //print("🔥 stopWatchingKeyboard")
+//        cancellable?.cancel()
+//    }
+//}
+//
+//public extension View {
+//    func adaptsToScreenKeyboard() -> some View {
+//        modifier(AdaptsToScreenKeyboard())
+//    }
+//}
 
 // MARK: - DisabledField
 

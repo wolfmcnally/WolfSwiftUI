@@ -106,6 +106,7 @@ public struct DoneButton: View {
         Button(action: action) {
             Text("Done")
                 .bold()
+                .font(.body)
         }
     }
 }
@@ -121,6 +122,7 @@ public struct SaveButton: View {
         Button(action: action) {
             Text("Save")
                 .bold()
+                .font(.body)
         }
     }
 }
@@ -142,6 +144,7 @@ public struct BackButton: View {
                     .flipsForRightToLeftLayoutDirection(true)
                 Text(label)
                 .bold()
+                .font(.body)
             }
         }
     }
@@ -160,6 +163,7 @@ struct Buttons_Previews: PreviewProvider {
                 HStack(spacing: 20) {
                     DetailToggleButton(isDetailVisible: $isDetailVisible)
                     CheckBox(title: "Checked", isOn: $isChecked)
+                    CheckBox(title: "Checked", isOn: .constant(true))
                     RefreshButton(isRefreshing: $isRefreshing) {
                         self.isRefreshing = true
                         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .seconds(1))) {
@@ -168,6 +172,7 @@ struct Buttons_Previews: PreviewProvider {
                     }
                 }
                 DoneButton() { }
+                SaveButton() { }
                 BackButton() { }
             }
             .padding()
