@@ -38,7 +38,7 @@ public extension View {
 
 // MARK: - Project Optional Binding to Non-Optional Binding
 
-public func ??<T>(binding: Binding<T?>, fallback: T) -> Binding<T> {
+public func ??<T: Sendable>(binding: Binding<T?>, fallback: T) -> Binding<T> {
     return Binding(get: {
         binding.wrappedValue ?? fallback
     }, set: {
